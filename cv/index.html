@@ -3,70 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV/Resume</title>
+    <title>Jefferson Chen's Resume</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <nav>
         <a href="../index.html">Home</a>
-        <a href="../projects/index.html">Projects</a>
         <a href="../contact/index.html">Contact</a>
+        <a href="./index.html" class="current">Projects</a>
         <a href="https://jeffersonchen888.github.io/portfolio/">Github</a>
-        <a href="index.html">CV</a>
+        <a href="../cv/index.html">CV</a>
     </nav>
-    <h1>Curriculum Vitae</h1>
 
-    <section>
-        <header>
-            <h2>Personal Information</h2>
-        </header>
-        <p><strong>Name:</strong> Jefferson Chen</p>
-        <p><strong>Email:</strong> jefferson@example.com</p>
-    </section>
+    <div class="container">
+        <!-- Education Section -->
+        <div class="section" id="education">
+          <h2>Education</h2>
+          <p><strong>University of California, San Diego</strong><br> 
+            Bachelor of Science in Business Economics and Data Science<br>
+            GPA: 3.93/4.0; Dean’s List (Sep 2023 – Present)</p>
+          <p><strong>University of California, Santa Cruz</strong><br> 
+            Bachelor of Science in Computer Science<br>
+            GPA: 3.91/4.0; Dean’s List (Sep 2022 – Sep 2023)</p>
+        </div>
+    
+        <!-- Technical Skills Section -->
+        <div class="section" id="skills">
+          <h2>Technical Skills</h2>
+          <p>Python, R, C++, JavaScript, SLURM, SQL, Machine Learning (scikit-learn, PyTorch), 
+             Natural Language Processing (BERT, GPT), Deep Learning, Cloud Deployment (AWS)</p>
+        </div>
+    
+        <!-- Experience Section -->
+        <div class="section" id="experience">
+          <h2>Experience</h2>
+          <p><strong>AI Research Assistant, UC San Diego</strong> (Oct 2024 – Present)</p>
+          <ul>
+            <li>Worked on a ChatGPT4o-based multi-agent system for single-cell data analysis.</li>
+            <li>Integrated UI with Python and Node.js to automate workflows.</li>
+            <li>Designed experiments to evaluate robustness of ML algorithms for research pipelines.</li>
+          </ul>
+          <p><strong>Research Intern, UT Southwestern Medical Center</strong> (Jun 2024 – Present)</p>
+          <ul>
+            <li>Developed single-cell annotation methods using scGPT and Tangram frameworks.</li>
+            <li>Optimized data preprocessing pipelines via Python and SLURM.</li>
+          </ul>
+          <!-- Add remaining positions here following the same format -->
+        </div>
+    
+        <!-- Awards Section -->
+        <div class="section" id="awards">
+          <h2>Awards & Honors</h2>
+          <p>Dean’s Award (UCSD), AP Scholar with Distinction, First Prize – San Ramon Hackathon, 
+             HarvardX Machine Learning Certification</p>
+        </div>
+    
+        <!-- Extracurricular Activities -->
+        <div class="section" id="activities">
+          <h2>Extracurricular Activities</h2>
+          <p><strong>Leader, UCSD Chinese Students and Scholars Association</strong> (Mar 2024 – Present)</p>
+          <p>Organized 20+ academic events, mentored peers in career development, secured $30,000+ sponsorships.</p>
+        </div>
+    </div>
 
-    <section>
-        <header>
-            <h2>Education</h2>
-        </header>
-        <article>
-            <h3>University of California, San Diego</h3>
-            <p><time>2022 - 2026</time></p>
-            <ul>
-                <li>Double Major: Business Economics & Data Science</li>
-                <li>Leader of Academic Department, UCSD Chinese Student and Scholar Association</li>
-            </ul>
-        </article>
-    </section>
+    <div class="desktop-pet">
+        <div class="pet-container">
+            <div class="space-particles" id="particles"></div>
+            <img src="../image/idle.gif" alt="Desktop Pet" class="pet-img">
+        </div>
+    </div>
 
-    <section>
-        <header>
-            <h2>Experience</h2>
-        </header>
-        <article>
-            <h3>AI Talent Recruiter</h3>
-            <p><time>2024 - Present</time></p>
-            <p>Assisted with recruitment processes for AI-related roles and projects.</p>
-        </article>
-        <article>
-            <h3>Academic Sharing Event Organizer</h3>
-            <p><time>2024</time></p>
-            <p>Invited professors to present at UCSD CSSA events, fostering academic exchange.</p>
-        </article>
-    </section>
+    <script>
+       class DesktopPet {
+            constructor() {
+                this.pet = document.querySelector('.desktop-pet');
+                this.petImg = document.querySelector('.pet-img');
+                this.x = window.innerWidth - 150;
+                this.y = 50;
+                this.state = 'idle';
+                this.gifs = {
+                    idle: '../image/idle.gif',
+                    sleep: '../image/sleep.gif',
+                    walkLeft: '../image/walking_positive.gif',
+                    walkRight: '../image/walking_negative.gif',
+                    toSleep: '../image/idle_to_sleep.gif',
+                    fromSleep: '../image/sleep_to_idle.gif'
+                };
+                this.init();
+                this.createParticles();
+            }
 
-    <section>
-        <header>
-            <h2>Skills</h2>
-        </header>
-        <ul>
-            <li>Programming: Python, SQL, R</li>
-            <li>Data Analysis & Visualization</li>
-            <li>Machine Learning</li>
-            <li>Event Organization & Leadership</li>
-        </ul>
-    </section>
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
 
-    <footer>
-        <p>Updated: <time>2025-01-08</time></p>
-    </footer>
+
+            init() {
+                this.pet.style.left = `${this.x}px`;
+                this.pet.style.bottom = `${this.y}px`;
+                this.setupEventListeners();
+                this.startBehaviorLoop();
+            }
+
+            setupEventListeners() {
+                this.pet.addEventListener('click', () => this.toggleSleep());
+                document.addEventListener('mousemove', (e) => this.watchMouse(e));
+            }
+
+            setState(newState) {
+                this.state = newState;
+                switch(newState) {
+                    case 'idle':
+                        this.petImg.src = this.gifs.idle;
+                        break;
+                    case 'sleep':
+                        this.petImg.src = this.gifs.sleep;
+                        break;
+                    case 'walkLeft':
+                        this.petImg.src = this.gifs.walkLeft;
+                        break;
+                    case 'walkRight':
+                        this.petImg.src = this.gifs.walkRight;
+                        break;
+                    case 'toSleep':
+                        this.petImg.src = this.gifs.toSleep;
+                        setTimeout(() => this.setState('sleep'), 800); // Adjust timing based on your GIF
+                        break;
+                    case 'fromSleep':
+                        this.petImg.src = this.gifs.fromSleep;
+                        setTimeout(() => this.setState('idle'), 800); // Adjust timing based on your GIF
+                        break;
+                }
+            }
+
+            toggleSleep() {
+                if (this.state !== 'sleep' && this.state !== 'toSleep') {
+                    this.setState('toSleep');
+                } else if (this.state === 'sleep') {
+                    this.setState('fromSleep');
+                }
+            }
+
+            walk(direction) {
+                if (this.state === 'sleep' || this.state === 'toSleep' || this.state === 'fromSleep') return;
+                
+                if (direction === 'left') {
+                    this.setState('walkLeft');
+                    this.x = Math.max(0, this.x - 3);
+                } else {
+                    this.setState('walkRight');
+                    this.x = Math.min(window.innerWidth - 150, this.x + 3);
+                }
+                this.pet.style.left = `${this.x}px`;
+            }
+
+            watchMouse(e) {
+                if (this.state === 'sleep' || this.state === 'toSleep' || this.state === 'fromSleep') return;
+                
+                const petRect = this.pet.getBoundingClientRect();
+                const petCenter = petRect.left + petRect.width / 2;
+                if (Math.abs(e.clientX - petCenter) > 200) {
+                    this.walk(e.clientX < petCenter ? 'left' : 'right');
+                } else {
+                    if (this.state !== 'idle') this.setState('idle');
+                }
+            }
+
+            startBehaviorLoop() {
+                setInterval(() => {
+                    if (this.state === 'idle' && Math.random() < 0.1) {
+                        const direction = Math.random() < 0.5 ? 'left' : 'right';
+                        this.walk(direction);
+                        setTimeout(() => {
+                            if (this.state !== 'sleep') this.setState('idle');
+                        }, 2000);
+                    }
+                }, 3000);
+            }
+        }
+
+        // Initialize the pet when the page loads
+        window.addEventListener('load', () => {
+            const pet = new DesktopPet();
+        });
+    </script>
 </body>
 </html>

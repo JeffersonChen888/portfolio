@@ -1,6 +1,70 @@
+/* Step 4.1: Global heading styles */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+/* Step 4.2: Adjust h1 and h2 sizes */
+h1 {
+  font-size: 250%; /* Significantly larger than body text */
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 150%; /* Slightly smaller than h1 */
+}
+
+/* General body styling */
 body {
-    /* Set line height to 1.5 times the font size
-         and use the OS’s UI font as the website font
-       */
-    font: 100%/1.5 system-ui;
-  }
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  line-height: 1.6;
+  max-width: 80ch; /* Adjust this value as needed */
+  margin: 0 auto; /* Centers content */
+  padding: 1em;
+}
+
+/* Step 2.1: Remove default list styling */
+nav ul {
+  display: contents;
+}
+nav li {
+  display: contents;
+}
+
+/* Step 2.2: Apply Flexbox to the navigation */
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid oklch(80% 3% 200);
+}
+
+/* Style the links */
+nav a {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  padding: 0.5em;
+}
+
+/* Highlight the current page */
+nav a.current {
+  border-bottom: 0.4em solid oklch(80% 3% 200);
+  padding-bottom: 0.1em;
+}
+
+/* Add hover styles */
+nav a:hover {
+  /* border-bottom: 0.4em solid var(--color-accent); */
+  background-color: oklch(from var(--color-accent) 95% 5% h);
+}
+
+/* Define an accent color */
+:root {
+  --color-accent: oklch(65% 50% 0);
+}

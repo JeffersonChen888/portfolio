@@ -1,0 +1,41 @@
+/* Step 2.1: Make the container a grid */
+.projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+    gap: 1em;
+    margin: 1em 0;
+}
+
+/* Step 2.2: Style individual articles */
+.projects article {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Step 3.1: Ensure alignment */
+.projects article h2 {
+    margin: 0;
+    font-size: 1.25em;
+    line-height: 1.1;
+    text-wrap: balance; /* Prevent uneven lines */
+}
+
+/* Step 3.2: Image alignment */
+.projects article img {
+    width: 100%;
+    height: auto;
+    margin: 0.5em 0;
+}
+
+/* Step 3.3: Paragraph styling */
+.projects article p {
+    margin: 0;
+    line-height: 1.6;
+}

@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>Contact</title>
+</head>
+<body>
+
     <nav>
         <a href="../index.html">Home</a>
-        <a href="../contact/index.html">Contact</a>
+        <a href="./index.html" class="current">Contact</a>
         <a href="../projects/index.html">Projects</a>
         <a href="https://jeffersonchen888.github.io/portfolio/">Github</a>
         <a href="../cv/index.html">CV</a>
     </nav>
 
-    <title>Contact</title>
     <h1>Contact Page</h1>
-</head>
-<body>
     <form action="mailto:jec068@ucsd.edu" method="POST" enctype="text/plain">
-        <label for="email">Email:</label> <input name="email" type="email" id="email">
-        <label for="subject">Subject:</label> <input name="subject" id="subject">
-        <label for="body">Body:</label> <textarea name="body" id="body"></textarea>
+        <label for="email">Email:</label>
+        <input name="email" type="email" id="email">
+        <label for="subject">Subject:</label>
+        <input name="subject" id="subject">
+        <label for="body">Body:</label>
+        <textarea name="body" id="body"></textarea>
         <button type="submit">Submit</button>
     </form>
+
 </body>
 </html>

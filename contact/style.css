@@ -1,0 +1,39 @@
+/* Step 3.1: Integrate typography */
+form input,
+form textarea,
+form button {
+    font: inherit;
+}
+
+/* Step 3.2: Top-down layout */
+form {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: auto 1fr;
+}
+
+form label {
+    grid-column: 1;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    grid-column: 2;
+}
+
+/* Step 3.3: Align fields in a grid */
+form {
+    grid-template-columns: auto 1fr;
+}
+
+form label {
+    align-self: center;
+    justify-self: end;
+}
+
+form button {
+    grid-column: 1 / -1;
+    justify-self: center;
+}
