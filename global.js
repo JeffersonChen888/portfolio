@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
       url = `/portfolio/${url}`;
     } 
     // If not on home page and not an external link, add "../"
-    else if (!ARE_WE_HOME && !url.startsWith('http')) {
-      url = '../' + url;
-    }
+    // else if (!ARE_WE_HOME && !url.startsWith('http')) {
+    //   url = '../' + url;
+    // }
 
     // Create <a> element for the link
     let a = document.createElement('a');
