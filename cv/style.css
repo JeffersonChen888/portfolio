@@ -7,70 +7,41 @@
     height: 120px;
     z-index: 1000;
     cursor: pointer;
-    transition: transform 0.3s;
-    mix-blend-mode: multiply;
+    transition: background-color 0.3s ease;
+    background-color: transparent; /* Keeps the background transparent */
 }
 
 .pet-container {
     position: relative;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    border-radius: 50%; /* Keeps it round */
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    box-shadow: 
-        0 0 15px rgba(255, 255, 255, 0.5),
-        inset 0 0 15px rgba(255, 255, 255, 0.5);
+    background: none; /* Removes any background color or blur effect */
+    box-shadow: none; /* Removes any shadow effect */
 }
 
-/* Animated border effect */
+/* Remove animated border effect */
 .pet-container::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, 
-        #ff00ff, #00ffff, #00ff00, #ffff00, #ff00ff);
-    animation: rotate 10s linear infinite;
-    z-index: -1;
+    content: none;
 }
 
+/* Remove inner border or glow */
 .pet-container::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    z-index: -1;
+    content: none;
 }
 
 .pet-img {
     width: 90%;
     height: 90%;
     object-fit: contain;
-    background-color: transparent;
+    background-color: transparent; /* Ensures the image background remains transparent */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    -webkit-filter: drop-shadow(0 0 0 rgba(0,0,0,0));
-    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    -webkit-filter: none; /* Removes any filter */
+    filter: none; /* Removes any filter */
 }
 
 /* Space particles effect */
