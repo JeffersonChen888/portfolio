@@ -45,6 +45,26 @@ for (let p of pages) {
   nav.append(a);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    // Get all navigation links
+    const navLinks = document.querySelectorAll("nav a");
+  
+    // Check if the website is hosted on GitHub Pages
+    const isGitHubPages = window.location.hostname === "jeffersonchen888.github.io";
+  
+    if (isGitHubPages) {
+      navLinks.forEach(link => {
+        const href = link.getAttribute("href");
+        
+        // Only update links that don't already contain "/portfolio/"
+        if (!href.startsWith("/portfolio/")) {
+          link.setAttribute("href", `/portfolio${href}`);
+        }
+      });
+    }
+  });
+  
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const existingButton = document.getElementById("theme-button");
