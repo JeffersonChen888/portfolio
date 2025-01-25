@@ -1,5 +1,3 @@
-// global.js
-
 console.log('IT’S ALIVE!');
 
 function $$(selector, context = document) {
@@ -10,10 +8,10 @@ function $$(selector, context = document) {
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
 let pages = [
-  { url: '', title: 'Home' },
-  { url: 'https://jeffersonchen888.github.io/portfolio/projects/', title: 'Projects' },
-  { url: 'https://jeffersonchen888.github.io/portfolio/contact/', title: 'Contact' },
-  { url: 'https://jeffersonchen888.github.io/portfolio/cv/', title: 'CV' },
+  { url: '/portfolio/', title: 'Home' },
+  { url: '/portfolio/projects/', title: 'Projects' },
+  { url: '/portfolio/contact/', title: 'Contact' },
+  { url: '/portfolio/cv/', title: 'CV' },
   { url: "https://jeffersonchen888.github.io/portfolio/", title: 'GitHub' }
 ];
 
@@ -23,9 +21,6 @@ document.body.prepend(nav);
 for (let p of pages) {
   let url = p.url;
   let title = p.title;
-
-  // Adjust relative URLs if not on the home page
-  url = !ARE_WE_HOME && !url.startsWith('http') ? './' + url : url;
 
   // Create <a> element for the link
   let a = document.createElement('a');
@@ -44,7 +39,6 @@ for (let p of pages) {
   // Append the link to the navigation menu
   nav.append(a);
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
     const existingButton = document.getElementById("theme-button");
@@ -125,3 +119,6 @@ function updateNavAndButtonContrast() {
             root.classList.contains("dark-theme") ? "var(--button-text-color-light)" : "var(--button-text-color-dark)";
     }
 }
+
+
+
