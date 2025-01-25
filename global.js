@@ -25,7 +25,7 @@ for (let p of pages) {
   let title = p.title;
 
   // Adjust relative URLs if not on the home page
-  url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+  url = !ARE_WE_HOME && !url.startsWith('http') ? './' + url : url;
 
   // Create <a> element for the link
   let a = document.createElement('a');
