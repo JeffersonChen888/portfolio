@@ -1,6 +1,6 @@
 // global.js
 
-console.log('IT’S ALIVE!');
+console.log('IT'S ALIVE!');
 
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
@@ -20,76 +20,64 @@ let pages = [
 let nav = document.createElement('nav');
 document.body.prepend(nav);
 
-for (let p of pages) {
-  let url = p.url;
-  let title = p.title;
-
-  // Adjust relative URLs if not on the home page
-  url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
-
-  // Create <a> element for the link
-  let a = document.createElement('a');
-  a.href = url;
-  a.textContent = title;
-
-  // Highlight the current page link
-  a.classList.toggle(
-    'current',
-    a.host === location.host && a.pathname === location.pathname
-  );
-
-  // Open external links in a new tab
-  a.toggleAttribute('target', a.host !== location.host);
-
-  // Append the link to the navigation menu
-  nav.append(a);
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-    // Get all navigation links
-    const navLinks = document.querySelectorAll("nav a");
+  const isGitHubPages = window.location.hostname === "jeffersonchen888.github.io";
   
-    // Check if the website is hosted on GitHub Pages
-    const isGitHubPages = window.location.hostname === "jeffersonchen888.github.io";
-  
-    if (isGitHubPages) {
-      navLinks.forEach(link => {
-        const href = link.getAttribute("href");
-        
-        // Only update links that don't already contain "/portfolio/"
-        if (!href.startsWith("/portfolio/")) {
-          link.setAttribute("href", `/portfolio${href}`);
-        }
-      });
+  for (let p of pages) {
+    let url = p.url;
+    let title = p.title;
+
+    // If on GitHub Pages, prepend "/portfolio/" to relative URLs
+    if (isGitHubPages && !url.startsWith('http')) {
+      url = `/portfolio/${url}`;
+    } 
+    // If not on home page and not an external link, add "../"
+    else if (!ARE_WE_HOME && !url.startsWith('http')) {
+      url = '../' + url;
     }
-  });
+
+    // Create <a> element for the link
+    let a = document.createElement('a');
+    a.href = url;
+    a.textContent = title;
+
+    // Highlight the current page link
+    a.classList.toggle(
+      'current',
+      a.host === location.host && a.pathname === location.pathname
+    );
+
+    // Open external links in a new tab
+    a.toggleAttribute('target', a.host !== location.host);
+
+    // Append the link to the navigation menu
+    nav.append(a);
+  }
+
+  // Theme switcher and related functions
+  const existingButton = document.getElementById("theme-button");
   
+  if (!existingButton) {
+    // Create theme switcher button dynamically
+    const themeButton = document.createElement("button");
+    themeButton.id = "theme-button";
+    themeButton.textContent = "Switch to Dark Theme";
+    themeButton.style.position = "absolute";
+    themeButton.style.top = "10px";
+    themeButton.style.right = "10px";
 
+    // Add the button to the body
+    document.body.appendChild(themeButton);
 
-document.addEventListener("DOMContentLoaded", () => {
-    const existingButton = document.getElementById("theme-button");
-    
-    if (!existingButton) {
-        // Create theme switcher button dynamically
-        const themeButton = document.createElement("button");
-        themeButton.id = "theme-button";
-        themeButton.textContent = "Switch to Dark Theme";
-        themeButton.style.position = "absolute";
-        themeButton.style.top = "10px";
-        themeButton.style.right = "10px";
+    // Add click event listener
+    themeButton.addEventListener("click", toggleTheme);
 
-        // Add the button to the body
-        document.body.appendChild(themeButton);
-
-        // Add click event listener
-        themeButton.addEventListener("click", toggleTheme);
-
-        // Load and apply the saved theme from localStorage
-        applySavedTheme();
-    }
+    // Load and apply the saved theme from localStorage
+    applySavedTheme();
+  }
 });
 
-// Toggle between light and dark themes
+// Remaining theme-related functions stay the same (toggleTheme, applySavedTheme, updateNavAndButtonContrast)
 function toggleTheme() {
     const root = document.documentElement;
 
@@ -108,7 +96,6 @@ function toggleTheme() {
     updateNavAndButtonContrast();
 }
 
-// Apply the saved theme when the page loads
 function applySavedTheme() {
     const savedTheme = localStorage.getItem("theme") || "light-theme"; // Default to light theme
     const root = document.documentElement;
@@ -125,7 +112,6 @@ function applySavedTheme() {
     updateNavAndButtonContrast();
 }
 
-// Ensure button and nav colors contrast the background
 function updateNavAndButtonContrast() {
     const root = document.documentElement;
 
