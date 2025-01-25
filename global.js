@@ -11,9 +11,9 @@ const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
 let pages = [
   { url: '', title: 'Home' },
-  { url: 'projects/', title: 'Projects' },
-  { url: 'contact/', title: 'Contact' },
-  { url: 'cv/', title: 'CV' },
+  { url: 'portfolio/projects/', title: 'Projects' },
+  { url: 'portfolio/contact/', title: 'Contact' },
+  { url: 'portfolio/cv/', title: 'CV' },
   { url: "https://jeffersonchen888.github.io/portfolio/", title: 'GitHub' }
 ];
 
