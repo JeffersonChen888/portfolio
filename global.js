@@ -8,6 +8,7 @@ function $$(selector, context = document) {
 
 // Step 3.1: Adding the navigation menu
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
+const isGitHubPages = window.location.hostname === "jeffersonchen888.github.io";
 
 let pages = [
   { url: '', title: 'Home' },
@@ -21,20 +22,21 @@ let nav = document.createElement('nav');
 document.body.prepend(nav);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const isGitHubPages = window.location.hostname === "jeffersonchen888.github.io";
-  
   for (let p of pages) {
     let url = p.url;
     let title = p.title;
 
-    // If on GitHub Pages, prepend "/portfolio/" to relative URLs
-    if (isGitHubPages && !url.startsWith('http')) {
-      url = `/portfolio/${url}`;
-    } 
-    // If not on home page and not an external link, add "../"
-    // else if (!ARE_WE_HOME && !url.startsWith('http')) {
-    //   url = '../' + url;
-    // }
+    // Handle URLs for GitHub Pages
+    if (isGitHubPages) {
+      // Ensure external links are not modified
+      if (!url.startsWith('http')) {
+        // Prepend with /portfolio/ for all relative URLs
+        url = `/portfolio/${url.replace(/^\.\.\//, '')}`;
+      }
+    } else if (!ARE_WE_HOME && !url.startsWith('http')) {
+      // For non-home pages not on GitHub Pages, use ../
+      url = '../' + url;
+    }
 
     // Create <a> element for the link
     let a = document.createElement('a');
@@ -54,11 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
     nav.append(a);
   }
 
-  // Theme switcher and related functions
+  // Theme switcher setup (unchanged)
   const existingButton = document.getElementById("theme-button");
   
   if (!existingButton) {
-    // Create theme switcher button dynamically
     const themeButton = document.createElement("button");
     themeButton.id = "theme-button";
     themeButton.textContent = "Switch to Dark Theme";
@@ -66,38 +67,32 @@ document.addEventListener("DOMContentLoaded", () => {
     themeButton.style.top = "10px";
     themeButton.style.right = "10px";
 
-    // Add the button to the body
     document.body.appendChild(themeButton);
 
-    // Add click event listener
     themeButton.addEventListener("click", toggleTheme);
-
-    // Load and apply the saved theme from localStorage
     applySavedTheme();
   }
 });
 
-// Remaining theme-related functions stay the same (toggleTheme, applySavedTheme, updateNavAndButtonContrast)
+// Theme-related functions remain the same as in previous version
 function toggleTheme() {
     const root = document.documentElement;
 
-    // Toggle the theme class
     if (root.classList.contains("light-theme")) {
         root.classList.replace("light-theme", "dark-theme");
         document.getElementById("theme-button").textContent = "Switch to Light Theme";
-        localStorage.setItem("theme", "dark-theme"); // Save the theme to localStorage
+        localStorage.setItem("theme", "dark-theme");
     } else {
         root.classList.replace("dark-theme", "light-theme");
         document.getElementById("theme-button").textContent = "Switch to Dark Theme";
-        localStorage.setItem("theme", "light-theme"); // Save the theme to localStorage
+        localStorage.setItem("theme", "light-theme");
     }
 
-    // Update button and nav colors to ensure contrast
     updateNavAndButtonContrast();
 }
 
 function applySavedTheme() {
-    const savedTheme = localStorage.getItem("theme") || "light-theme"; // Default to light theme
+    const savedTheme = localStorage.getItem("theme") || "light-theme";
     const root = document.documentElement;
     root.className = savedTheme;
 
@@ -108,21 +103,18 @@ function applySavedTheme() {
         themeButton.textContent = "Switch to Dark Theme";
     }
 
-    // Update button and nav colors to ensure contrast
     updateNavAndButtonContrast();
 }
 
 function updateNavAndButtonContrast() {
     const root = document.documentElement;
 
-    // Update nav background color
     const nav = document.querySelector("nav");
     if (nav) {
         nav.style.backgroundColor =
             root.classList.contains("dark-theme") ? "var(--background-color-light)" : "var(--background-color-dark)";
     }
 
-    // Update button background color
     const themeButton = document.getElementById("theme-button");
     if (themeButton) {
         themeButton.style.backgroundColor =
