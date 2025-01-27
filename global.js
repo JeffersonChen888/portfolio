@@ -101,16 +101,17 @@ export async function fetchGitHubData(username) {
 
 export async function fetchJSON(url) {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch JSON data: ${response.statusText}`);
-        }
-        const data = await response.json();
-        return data;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch JSON data: ${response.statusText}`);
+      }
+      return await response.json();
     } catch (error) {
-        console.error('Error fetching JSON data:', error);
+      console.error('Error fetching JSON data:', error);
+      return []; // Return an empty array as a fallback
     }
-}
+  }
+  
 
 export function renderProjects(projects, container, headingTag = 'h2') {
     container.innerHTML = '';
