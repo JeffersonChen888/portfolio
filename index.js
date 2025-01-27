@@ -1,27 +1,18 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 (async function () {
-  // Fetch all projects
   const projects = await fetchJSON('./lib/projects.json');
 
-  // Filter the first 3 projects
   const latestProjects = projects.slice(0, 3);
-
-  // Select the projects container
   const projectsContainer = document.querySelector('.projects');
 
-  // Render the latest projects
   if (projectsContainer) {
-    renderProjects(latestProjects, projectsContainer, 'h3'); // Use 'h3' for smaller headings on the home page
+    renderProjects(latestProjects, projectsContainer, 'h3');
   }
 
-  // Fetch GitHub data
-  const githubData = await fetchGitHubData('your-github-username'); // Replace with your GitHub username
+  const githubData = await fetchGitHubData('your-github-username');
 
-  // Select the GitHub stats container
   const profileStats = document.querySelector('#profile-stats');
-
-  // Update the HTML with GitHub stats
   if (profileStats && githubData) {
     profileStats.innerHTML = `
       <dl>
