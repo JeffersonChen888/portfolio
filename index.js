@@ -3,7 +3,7 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 (async function () {
   try {
     // Use the GitHub Pages URL format
-    const projectsUrl = 'https://jeffersonchen888.github.io/portfolio/lib/projects.json';
+    const projectsUrl = './lib/projects.js';
     const data = await fetchJSON(projectsUrl);
     
     if (!data || !data.projects) {
