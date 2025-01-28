@@ -2,8 +2,9 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 (async function () {
   try {
-    // Fetch all projects
-    const data = await fetchJSON('/portfolio/lib/projects.json');
+    // Use the GitHub Pages URL format
+    const projectsUrl = 'https://jeffersonchen888.github.io/portfolio/lib/projects.json';
+    const data = await fetchJSON(projectsUrl);
     
     if (!data || !data.projects) {
       throw new Error('Invalid projects data structure');
@@ -23,7 +24,7 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
     }
 
     // Fetch GitHub data
-    const githubData = await fetchGitHubData('JeffersonChen888'); // Update with your actual GitHub username
+    const githubData = await fetchGitHubData('JeffersonChen888');
 
     // Select the GitHub stats container
     const profileStats = document.querySelector('#profile-stats');
