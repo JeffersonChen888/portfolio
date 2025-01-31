@@ -2,34 +2,23 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 (async function () {
   try {
-    // Use the GitHub Pages URL format
-    const projectsUrl = 'https://github.com/JeffersonChen888/portfolio/blob/main/lib/projects.js';
-    const data = await fetchJSON(projectsUrl);
+    const projects = await fetchJSON(
+      window.location.hostname === 'localhost' 
+        ? './lib/projects.json' 
+        : 'https://raw.githubusercontent.com/JeffersonChen888/portfolio/main/lib/projects.json'
+    );
+
+    // ✅ Use projects directly (no "data" variable)
+    const latestProjects = projects.slice(0, 3);
     
-    if (!data || !data.projects) {
-      throw new Error('Invalid projects data structure');
-    }
-
-    // Filter the first 3 projects
-    const latestProjects = data.projects.slice(0, 3);
-
-    // Select the projects container
     const projectsContainer = document.querySelector('.projects');
-
-    // Render the latest projects
     if (projectsContainer) {
       renderProjects(latestProjects, projectsContainer, 'h3');
-    } else {
-      console.warn('Projects container not found');
     }
 
-    // Fetch GitHub data
     const githubData = await fetchGitHubData('JeffersonChen888');
-
-    // Select the GitHub stats container
     const profileStats = document.querySelector('#profile-stats');
 
-    // Update the HTML with GitHub stats
     if (profileStats && githubData) {
       profileStats.innerHTML = `
         <dl>
@@ -39,8 +28,6 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
           <dt>Following:</dt><dd>${githubData.following}</dd>
         </dl>
       `;
-    } else if (!profileStats) {
-      console.warn('Profile stats container not found');
     }
   } catch (error) {
     console.error('Error initializing page:', error);

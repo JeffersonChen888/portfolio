@@ -7,13 +7,15 @@ function $$(selector, context = document) {
 // Step 3.1: Adding the navigation menu
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
+// global.js (update pages array)
 let pages = [
-  { url: '/portfolio/', title: 'Home' },
-  { url: '/portfolio/projects/', title: 'Projects' },
-  { url: '/portfolio/contact/', title: 'Contact' },
-  { url: '/portfolio/cv/', title: 'CV' },
-  { url: "https://jeffersonchen888.github.io/portfolio/", title: 'GitHub' }
-];
+    { url: window.location.hostname === 'localhost' ? '/' : '/portfolio/', title: 'Home' },
+    { url: 'projects/', title: 'Projects' },
+    { url: 'contact/', title: 'Contact' },
+    { url: 'cv/', title: 'CV' },
+    { url: "https://github.com/JeffersonChen888", title: 'GitHub' }
+  ];
+
 
 let nav = document.createElement('nav');
 document.body.prepend(nav);
