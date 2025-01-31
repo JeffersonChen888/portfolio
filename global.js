@@ -8,12 +8,36 @@ function $$(selector, context = document) {
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
 // global.js (update pages array)
+// Update the pages array in global.js to:
 let pages = [
-    { url: window.location.hostname === 'localhost' ? '/' : '/portfolio/', title: 'Home' },
-    { url: 'projects/', title: 'Projects' },
-    { url: 'contact/', title: 'Contact' },
-    { url: 'cv/', title: 'CV' },
-    { url: "https://github.com/JeffersonChen888", title: 'GitHub' }
+    { 
+      url: window.location.hostname.includes('github.io') 
+        ? '/portfolio/' 
+        : '/', 
+      title: 'Home' 
+    },
+    { 
+      url: window.location.hostname.includes('github.io')
+        ? '/portfolio/projects/'
+        : '/projects/', 
+      title: 'Projects' 
+    },
+    { 
+      url: window.location.hostname.includes('github.io')
+        ? '/portfolio/contact/'
+        : '/contact/', 
+      title: 'Contact' 
+    },
+    { 
+      url: window.location.hostname.includes('github.io')
+        ? '/portfolio/cv/'
+        : '/cv/', 
+      title: 'CV' 
+    },
+    { 
+      url: "https://github.com/JeffersonChen888", 
+      title: 'GitHub' 
+    }
   ];
 
 
