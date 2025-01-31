@@ -3,11 +3,12 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 (async function () {
   try {
-    const projects = await fetchJSON(
-      window.location.hostname === 'localhost' 
-        ? './lib/projects.json'
-        : 'https://raw.githubusercontent.com/JeffersonChen888/portfolio/main/lib/projects.json'
-    );
+    // const projects = await fetchJSON(
+    //   window.location.hostname === 'localhost' 
+    //     ? './lib/projects.json'
+    //     : 'https://raw.githubusercontent.com/JeffersonChen888/portfolio/main/lib/projects.json'
+    // );
+    const projects = await fetchJSON('./lib/projects.json');
 
     // Render latest projects
     const projectsContainer = document.querySelector('.projects');
