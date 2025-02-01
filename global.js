@@ -89,6 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
+
 // Toggle between light and dark themes
 function toggleTheme() {
     const root = document.documentElement;
