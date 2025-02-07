@@ -112,3 +112,15 @@ nav a:hover {
   background-color: var(--button-background-light);
   color: var(--button-text-color-light);
 }
+
+/* Project styles */
+.project-content {
+    margin-top: 1em;
+}
+
+.project-year {
+    font-family: Baskerville, "Baskerville Old Face", serif;
+    font-variant-numeric: oldstyle-nums;
+    color: #666;
+    margin-top: 0.5em;
+}

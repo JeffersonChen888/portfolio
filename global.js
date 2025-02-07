@@ -1,4 +1,4 @@
-console.log('IT’S ALIVE!');
+console.log('IT'S ALIVE!');
 
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
@@ -186,7 +186,10 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
         article.innerHTML = `
             <${headingLevel}>${project.title}</${headingLevel}>
             <img src="${project.image}" alt="${project.title}">
-            <p>${project.description}</p>
+            <div class="project-content">
+                <p>${project.description}</p>
+                <p class="project-year">${project.year}</p>
+            </div>
         `;
         containerElement.appendChild(article);
     });
