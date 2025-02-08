@@ -36,3 +36,69 @@
     margin: 0;
     line-height: 1.6;
 }
+
+/* Chart container layout */
+.chart-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 2em;
+    margin: 2em 0;
+}
+
+#projects-pie-plot {
+    max-width: 20em;
+    overflow: visible;
+}
+
+/* Legend styles */
+.legend {
+    flex: 1;
+    list-style: none;
+    padding: 1em;
+    margin: 0;
+    border: 1px solid var(--nav-border-color);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+    gap: 1em;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+}
+
+.swatch {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 3px;
+    background-color: var(--color);
+}
+
+.legend em {
+    color: var(--nav-link-color);
+    font-style: normal;
+    opacity: 0.7;
+}
+
+.legend-item.selected .swatch {
+    background-color: var(--color);
+}
+
+/* Search bar styles */
+.searchBar {
+    width: 100%;
+    padding: 0.5em;
+    margin: 1em 0;
+    border: 1px solid var(--nav-border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.searchBar:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -1px;
+}
