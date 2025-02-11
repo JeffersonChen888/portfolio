@@ -171,11 +171,13 @@ function renderClockChart() {
         return [mouseId, hourMap];
     });
 
-    // Set scale based on metric
-    const maxValue = currentMetric === 'activity' ? 35 : 20;
+    // Adjust scale for temperature to focus on the relevant range
+    const maxValue = currentMetric === 'activity' ? 34 : 19.5;
+    const minValue = currentMetric === 'activity' ? 0 : 18; // Set minimum temperature to better show variations
+    
     const valueScale = d3.scaleLinear()
-        .domain([0, maxValue])
-        .range([0, radius]);
+        .domain([minValue, maxValue])
+        .range([50, radius]); // Start from 50 to create inner padding
 
     // Add circular axis labels
     const axisCircles = [0.25, 0.5, 0.75, 1];
@@ -200,7 +202,7 @@ function renderClockChart() {
             .style('font-size', '10px')
             .text(currentMetric === 'activity' ? 
                 `${Math.round(value)} counts` : 
-                `${value.toFixed(1)}°C`);
+                `${value.toFixed(2)}°C`);
     });
 
     // Add hour labels
@@ -232,34 +234,46 @@ function renderClockChart() {
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    // Draw mouse lines
+    // Draw mouse lines with improved hover and click interaction
     hourlyData.forEach(([mouseId, hourMap]) => {
         const lineData = Array.from({length: 24}, (_, hour) => {
             const value = hourMap.get(hour) || 0;
             return [hour, value];
         });
 
-        g.append('path')
+        const path = g.append('path')
             .datum(lineData)
             .attr('class', 'mouse-line')
+            .attr('id', `mouse-${mouseId}`)
             .attr('d', radialLine)
             .attr('fill', color(mouseId))
             .attr('fill-opacity', 0.2)
             .attr('stroke', color(mouseId))
             .attr('stroke-width', 2)
-            .on('mouseover', (event, d) => showTooltip(event, mouseId, d))
-            .on('mouseout', hideTooltip)
-            .on('click', function() {
-                const isSelected = d3.select(this).classed('selected');
-                g.selectAll('.mouse-line')
-                    .classed('dimmed', !isSelected);
-                d3.select(this)
-                    .classed('selected', !isSelected)
-                    .classed('dimmed', false);
+            .style('cursor', 'pointer') // Add pointer cursor
+            .on('mousemove', (event) => {
+                const [x, y] = d3.pointer(event, g.node());
+                const angle = Math.atan2(y, x);
+                const hour = (Math.floor(((angle * 180 / Math.PI + 90 + 360) % 360) / 15) + 12) % 24;
+                showTooltip(event, mouseId, lineData, hour);
+            })
+            .on('mouseout', (event) => {
+                if (!d3.select(event.currentTarget).classed('selected')) {
+                    hideTooltip();
+                }
+            })
+            .on('click', (event) => {
+                event.stopPropagation(); // Prevent event bubbling
+                toggleMouseSelection(mouseId);
             });
     });
 
-    // Create legend
+    // Add click handler to clear selection when clicking background
+    svg.on('click', () => {
+        clearAllSelections();
+    });
+
+    // Create legend with improved interaction
     const legend = d3.select('.legend').html('');
     legend.append('div')
         .style('text-align', 'center')
@@ -270,8 +284,22 @@ function renderClockChart() {
     hourlyData.forEach(([mouseId]) => {
         const item = legend.append('div')
             .attr('class', 'legend-item')
-            .on('mouseover', () => highlightMouse(mouseId))
-            .on('mouseout', resetHighlight);
+            .style('cursor', 'pointer')
+            .on('mouseover', () => {
+                if (!d3.select(`#mouse-${mouseId}`).classed('selected')) {
+                    d3.selectAll('.mouse-line').classed('dimmed', true);
+                    d3.select(`#mouse-${mouseId}`).classed('dimmed', false);
+                }
+            })
+            .on('mouseout', () => {
+                if (!d3.selectAll('.mouse-line.selected').nodes().length) {
+                    d3.selectAll('.mouse-line').classed('dimmed', false);
+                }
+            })
+            .on('click', (event) => {
+                event.stopPropagation(); // Prevent event bubbling
+                toggleMouseSelection(mouseId);
+            });
 
         item.append('div')
             .attr('class', 'legend-color')
@@ -288,45 +316,28 @@ function zoomed(event) {
         `translate(${width/2},${height/2}) scale(${transform.k})`);
 }
 
-function showTooltip(event, mouseId, data) {
+function showTooltip(event, mouseId, data, hour) {
+    hideTooltip(); // Remove any existing tooltips
+    
     const tooltip = d3.select('body').append('div')
         .attr('class', 'tooltip')
         .style('left', (event.pageX + 10) + 'px')
         .style('top', (event.pageY - 10) + 'px');
 
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const angle = Math.atan2(event.offsetY - centerY, event.offsetX - centerX);
-    const hour = Math.floor(((angle * 180 / Math.PI + 90 + 360) % 360) / 15);
-    
-    const currentValue = data.find(d => d[0] === hour);
+    const value = data[hour][1];
     
     tooltip.html(`
         Mouse ID: ${mouseId}<br>
         Time: ${hour % 12 || 12}${hour < 12 ? 'AM' : 'PM'}<br>
         ${currentMetric === 'activity' ? 'Activity' : 'Temperature'}: 
-        ${currentValue ? currentMetric === 'activity' ? 
-            `${currentValue[1].toFixed(0)} counts` : 
-            `${currentValue[1].toFixed(2)}°C` : 
-        'N/A'}
+        ${currentMetric === 'activity' ? 
+            `${value.toFixed(0)} counts` : 
+            `${value.toFixed(2)}°C`}
     `);
 }
 
 function hideTooltip() {
     d3.selectAll('.tooltip').remove();
-}
-
-function highlightMouse(mouseId) {
-    d3.selectAll('.mouse-line')
-        .classed('dimmed', true);
-    d3.selectAll('.mouse-line')
-        .filter(d => d[0] === mouseId)
-        .classed('dimmed', false);
-}
-
-function resetHighlight() {
-    d3.selectAll('.mouse-line')
-        .classed('dimmed', false);
 }
 
 function toggleGender() {
@@ -342,6 +353,89 @@ function toggleMetric() {
         .text(`Metric: ${currentMetric.charAt(0).toUpperCase() + currentMetric.slice(1)}`);
     renderClockChart();
 }
+
+// Add new helper functions for selection management
+function toggleMouseSelection(mouseId) {
+    const line = d3.select(`#mouse-${mouseId}`);
+    const legendItem = d3.selectAll('.legend-item').filter((_, i, nodes) => 
+        nodes[i].textContent.includes(`Mouse ${mouseId}`)
+    );
+    const wasSelected = line.classed('selected');
+    
+    // Clear all selections first
+    clearAllSelections();
+    
+    // If this wasn't previously selected, select it
+    if (!wasSelected) {
+        line.classed('selected', true);
+        legendItem.classed('selected', true);
+        d3.selectAll('.mouse-line').classed('dimmed', function() {
+            return !d3.select(this).classed('selected');
+        });
+    }
+}
+
+function clearAllSelections() {
+    d3.selectAll('.mouse-line')
+        .classed('selected', false)
+        .classed('dimmed', false);
+    d3.selectAll('.legend-item')
+        .classed('selected', false);
+    hideTooltip();
+}
+
+// Update CSS
+const style = document.createElement('style');
+style.textContent = `
+    .mouse-line {
+        transition: all 0.3s;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+    .mouse-line:hover {
+        opacity: 1;
+        stroke-width: 4px;
+    }
+    .mouse-line.dimmed {
+        opacity: 0.2;
+    }
+    .mouse-line.selected {
+        stroke-width: 4px;
+        opacity: 1;
+    }
+    .legend-item {
+        padding: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .legend-item:hover {
+        background-color: #f0f0f0;
+    }
+    .legend-item.selected {
+        background-color: #e0e0e0;
+        font-weight: bold;
+    }
+    .legend-color {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+    }
+    .tooltip {
+        position: absolute;
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        pointer-events: none;
+        font-size: 14px;
+        z-index: 1000;
+    }
+`;
+document.head.appendChild(style);
 
 init();
 </script>
