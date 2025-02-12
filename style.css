@@ -124,3 +124,112 @@ nav a:hover {
     color: #666;
     margin-top: 0.5em;
 }
+
+/* Chart styles */
+.gridlines line {
+    stroke: #ddd;
+    stroke-opacity: 0.3;
+}
+
+.gridlines path {
+    display: none;
+}
+
+#chart {
+    margin: 2em 0;
+}
+
+/* Stats display */
+.stats {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5em 1em;
+    margin: 1em 0;
+    padding: 1em;
+    background: var(--nav-background-color);
+    border-radius: 5px;
+}
+
+.stats dt {
+    font-weight: bold;
+    color: var(--nav-link-color);
+}
+
+.stats dd {
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* Tooltip styles */
+.tooltip {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    transition: 300ms;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5em 1em;
+}
+
+.info dt {
+    color: #666;
+    font-weight: normal;
+}
+
+.info dd {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Circle hover effects */
+circle {
+    transition: 200ms;
+    transform-origin: center;
+    transform-box: fill-box;
+    cursor: pointer;
+}
+
+circle:hover {
+    transform: scale(1.5);
+}
+
+.tooltip[hidden] {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes marching-ants {
+    to {
+        stroke-dashoffset: -8;
+    }
+}
+
+.selection {
+    fill-opacity: 0.1;
+    stroke: black;
+    stroke-opacity: 0.7;
+    stroke-dasharray: 5 3;
+    animation: marching-ants 2s linear infinite;
+}
+
+circle.selected {
+    fill: var(--color-accent) !important;
+    opacity: 1 !important;
+}
+
+#selection-count {
+    font-weight: bold;
+    margin: 1em 0;
+}
+
+#language-breakdown {
+    margin-top: 1em;
+}

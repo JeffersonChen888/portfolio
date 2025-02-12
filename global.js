@@ -1,4 +1,4 @@
-console.log('IT’S ALIVE!');
+console.log('IT'S ALIVE!');
 
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
@@ -33,6 +33,12 @@ let pages = [
         ? '/portfolio/cv/'
         : '/cv/', 
       title: 'CV' 
+    },
+    { 
+      url: window.location.hostname.includes('github.io')
+        ? '/portfolio/meta/'
+        : '/meta/', 
+      title: 'Code Analysis' 
     },
     { 
       url: "https://github.com/JeffersonChen888", 
