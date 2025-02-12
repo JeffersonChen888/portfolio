@@ -10,7 +10,7 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-
+  <!-- Navigation will be inserted here by global.js -->
   <header>
     <h1>Code Analysis</h1>
     <p>This page provides insights and statistics about the codebase of this portfolio website, including commit patterns, code metrics, and development trends.</p>
@@ -40,7 +40,8 @@
     </dl>
   </section>
 
-  <script type="module" src="../global.js"></script>
+  <!-- Load global.js first -->
+  <script type="module" src="../global.js" type="module"></script>
   <script type="module" src="./main.js"></script>
 </body>
 </html>
